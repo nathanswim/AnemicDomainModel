@@ -2,43 +2,34 @@
 
 namespace Logic.Entities
 {
-    public class Movie : Entity
+    public abstract class Movie : Entity
     {
         public virtual string Name { get; protected set; }
-        public virtual LicensingModel LicensingModel { get; protected set; }
+        protected virtual LicensingModel LicensingModel { get; set; }
 
-        public virtual ExpirationDate GetExpirationDate()
-        {
-            switch (LicensingModel)
-            {
-                case LicensingModel.TwoDays:
-                    return (ExpirationDate)DateTime.UtcNow.AddDays(2);
-
-                case LicensingModel.LifeLong:
-                    return ExpirationDate.Infinite;
-
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
+        public abstract ExpirationDate GetExpirationDate();
 
         public virtual Dollars CalculatePrice(CustomerStatus status)
         {
             decimal modifier = 1.00m - status.GetDiscount();
-            switch (LicensingModel)
-            {
-                case LicensingModel.TwoDays:
-                    return Dollars.Of(4m) * modifier;
-
-                case LicensingModel.LifeLong:
-                    return Dollars.Of(8m) * modifier;
-
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
+            return GetBasePrice() * modifier;
         }
 
+        protected abstract Dollars GetBasePrice();
 
+
+    }
+
+    public class TwoDaysMovie : Movie
+    {
+        public override ExpirationDate GetExpirationDate() => (ExpirationDate)DateTime.UtcNow.AddDays(2);
+        protected override Dollars GetBasePrice() => Dollars.Of(4m);
+    }
+
+    public class LifeLongMovie : Movie
+    {
+        public override ExpirationDate GetExpirationDate() => ExpirationDate.Infinite;
+
+        protected override Dollars GetBasePrice() => Dollars.Of(8m);
     }
 }

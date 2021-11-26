@@ -51,16 +51,6 @@ CREATE TABLE [dbo].[PurchasedMovie](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-ALTER TABLE [dbo].[PurchasedMovie]  WITH CHECK ADD  CONSTRAINT [FK_PurchasedMovie_Movie] FOREIGN KEY([MovieID])
-REFERENCES [dbo].[Movie] ([MovieID])
-GO
-ALTER TABLE [dbo].[PurchasedMovie] CHECK CONSTRAINT [FK_PurchasedMovie_Movie]
-GO
-ALTER TABLE [dbo].[PurchasedMovie]  WITH CHECK ADD  CONSTRAINT [FK_PurchasedMovie_PurchasedMovie] FOREIGN KEY([CustomerID])
-REFERENCES [dbo].[Customer] ([CustomerID])
-GO
-ALTER TABLE [dbo].[PurchasedMovie] CHECK CONSTRAINT [FK_PurchasedMovie_PurchasedMovie]
-GO
  
  SET IDENTITY_INSERT cUSTOMER ON
  GO
@@ -76,17 +66,25 @@ GO
 
 
 
+SET IDENTITY_INSERT [Movie] ON
+GO 
 INSERT [dbo].[Movie] ([MovieID], [Name], [LicensingModel]) 
 VALUES (1, N'The Great Gatsby', 1)
 GO
 INSERT [dbo].[Movie] ([MovieID], [Name], [LicensingModel]) 
 VALUES (2, N'The Secret Life of Pets', 2)
 GO
+SET IDENTITY_INSERT [Movie] OFF
+GO 
 
 
+SET IDENTITY_INSERT [PurchasedMovie] ON
+GO 
 INSERT [dbo].[PurchasedMovie] ([PurchasedMovieID], [CustomerID], [MovieID], [Price], [PurchaseDate], [ExpirationDate]) 
 VALUES (1, 2, 1, 5, N'2017-09-16T16:30:05', N'2017-09-18T00:00:00')
 GO
 INSERT [dbo].[PurchasedMovie] ([PurchasedMovieID], [CustomerID], [MovieID], [Price], [PurchaseDate], [ExpirationDate]) 
 VALUES (2, 2, 2, 4, N'2017-09-15T15:30:05', null)
 GO
+SET IDENTITY_INSERT [PurchasedMovie] OFF
+GO 

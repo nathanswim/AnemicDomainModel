@@ -6,7 +6,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Customer](
-	[CustomerID] [bigint] NOT NULL,
+	[CustomerID] [bigint] NOT NULL IDENTITY(1,1),
 	[Name] [nvarchar](50) NOT NULL,
 	[Email] [nvarchar](150) NOT NULL,
 	[Status] [int] NOT NULL,
@@ -24,7 +24,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Movie](
-	[MovieID] [bigint] NOT NULL,
+	[MovieID] [bigint] NOT NULL identity(1,1),
 	[Name] [nvarchar](50) NOT NULL,
 	[LicensingModel] [int] NOT NULL,
  CONSTRAINT [PK_Movie] PRIMARY KEY CLUSTERED 
@@ -39,7 +39,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[PurchasedMovie](
-	[PurchasedMovieID] [bigint] NOT NULL,
+	[PurchasedMovieID] [bigint] NOT NULL identity(1,1),
 	[MovieID] [bigint] NOT NULL,
 	[CustomerID] [bigint] NOT NULL,
 	[Price] [decimal](18, 2) NOT NULL,
@@ -62,12 +62,15 @@ GO
 ALTER TABLE [dbo].[PurchasedMovie] CHECK CONSTRAINT [FK_PurchasedMovie_PurchasedMovie]
 GO
  
-
+ SET IDENTITY_INSERT cUSTOMER ON
+ GO
 INSERT [dbo].[Customer] ([CustomerID], [Name], [Email], [Status], [StatusExpirationDate], [MoneySpent]) 
 VALUES (1, N'James Peterson', N'james.peterson@gmail.com', 1, NULL, CAST(0.00 AS Decimal(18, 2)))
 GO
 INSERT [dbo].[Customer] ([CustomerID], [Name], [Email], [Status], [StatusExpirationDate], [MoneySpent]) 
 VALUES (2, N'Michal Samson', N'm.samson@yahoo.com', 2, CAST(N'2018-09-19T20:54:00.000' AS DateTime), CAST(9.00 AS Decimal(18, 2)))
+GO
+SET IDENTITY_INSERT cUSTOMER OFF
 GO
 
 

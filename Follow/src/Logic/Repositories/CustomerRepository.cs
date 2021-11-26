@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Logic.Entities;
+﻿using Logic.Entities;
 using Logic.Utils;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Logic.Repositories
 {
@@ -16,12 +16,6 @@ namespace Logic.Repositories
         {
             return _unitOfWork
                 .Query<Customer>()
-                .ToList()
-                .Select(x =>
-                {
-                    x.PurchasedMovies = null;
-                    return x;
-                })
                 .ToList();
         }
 

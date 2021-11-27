@@ -14,12 +14,8 @@ namespace Logic.Entities
         private string _name;
 
 
-        public virtual Email Email
-        {
-            get => (Email)_email;
-            protected set => _email = value;
-        }
-        private string _email;
+        public virtual Email Email => (Email)_email;
+        private readonly string _email;
 
         public virtual CustomerStatus Status { get; protected set; }
 
